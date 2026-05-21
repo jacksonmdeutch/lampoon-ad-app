@@ -70,7 +70,7 @@ function App() {
     const rows = ads.map(ad => {
       const placedIssues = ad.issues.filter(issue => ad.placed[issue]);
       const remainingCount = ad.issues.length - placedIssues.length;
-      
+
       return [
         ad.company,
         ad.soldBy,
