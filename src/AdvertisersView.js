@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 
-function AdvertisersView({ ads }) {
+function AdvertisersView({ ads, issues, onSelectIssue, onEditAd }) {
   const [search, setSearch] = useState('');
 
-  // Expand ads so each issue is its own row
   const expanded = ads.flatMap(ad =>
     ad.issues.length > 0
       ? ad.issues.map(issue => ({ ...ad, displayIssue: issue }))
       : [{ ...ad, displayIssue: '—' }]
   );
 
-  // Group expanded rows by company
   const grouped = expanded.reduce((acc, row) => {
     if (!acc[row.company]) acc[row.company] = [];
     acc[row.company].push(row);
@@ -23,6 +21,18 @@ function AdvertisersView({ ads }) {
 
   const totalPlacements = expanded.length;
   const totalAdvertisers = Object.keys(grouped).length;
+
+  const isFullyPlaced = (ad) => {
+    return ad.issues.length > 0 && ad.issues.every(issue => ad.placed[issue]);
+  };
+
+  const isCompanyFullyPlaced = (companyAds) => {
+    const uniqueAdIds = [...new Set(companyAds.map(r => r.id))];
+    return uniqueAdIds.every(id => {
+      const ad = ads.find(a => a.id === id);
+      return ad && isFullyPlaced(ad);
+    });
+  };
 
   return (
     <div>
@@ -42,42 +52,60 @@ function AdvertisersView({ ads }) {
 
       {filtered.length === 0 && <p>No advertisers found.</p>}
 
-      {filtered.map(([company, rows]) => (
-        <div key={company} className="advertiser-card">
-          <div className="advertiser-header">
-            <h3>{company}</h3>
-            <span>{rows.length} placement{rows.length > 1 ? 's' : ''}</span>
-          </div>
-          <table className="ads-table">
-            <thead>
-              <tr>
-                <th>Issue</th>
-                <th>Size</th>
-                <th>Sold By</th>
-                <th>Ad Copy</th>
-                <th>Notes</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, i) => (
-                <tr key={i}>
-                  <td>{row.displayIssue}</td>
-                  <td>{row.size}</td>
-                  <td>{row.soldBy}</td>
-                  <td>
-                    {row.adCopy ? (
-                      <a href={row.adCopy} target="_blank" rel="noreferrer">View</a>
-                    ) : (
-                      <span className="no-copy-warning" title="Ad copy not yet received">⚠️ Not received</span>
-                    )}
-                  </td>
-                  <td>{row.notes || '—'}</td>
+      {filtered.map(([company, rows]) => {
+        const fullyPlaced = isCompanyFullyPlaced(rows);
+        return (
+          <div key={company} className={`advertiser-card ${fullyPlaced ? 'fully-placed' : ''}`}>
+            <div className="advertiser-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <h3>{company}</h3>
+                {fullyPlaced && <span className="all-placed-badge">✓ All Placed</span>}
+              </div>
+              <span>{rows.length} placement{rows.length > 1 ? 's' : ''}</span>
+            </div>
+            <table className="ads-table">
+              <thead>
+                <tr>
+                  <th>Issue</th>
+                  <th>Size</th>
+                  <th>Sold By</th>
+                  <th>Ad Copy</th>
+                  <th>Notes</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ))}
+              </thead>
+              <tbody>
+                {rows.map((row, i) => (
+                  <tr key={i} className={row.placed[row.displayIssue] ? 'placed' : ''}>
+                    <td>
+                      {row.displayIssue !== '—' ? (
+                        <button
+                          className="issue-link-btn"
+                          onClick={() => onSelectIssue(row.displayIssue)}
+                        >
+                          {row.displayIssue}
+                        </button>
+                      ) : '—'}
+                    </td>
+                    <td>{row.size}</td>
+                    <td>{row.soldBy}</td>
+                    <td>
+                      {row.adCopy ? (
+                        <a href={row.adCopy} target="_blank" rel="noreferrer">View ↗</a>
+                      ) : (
+                        <span className="no-copy-warning">⚠️ Not received</span>
+                      )}
+                    </td>
+                    <td>{row.notes || '—'}</td>
+                    <td>
+  <button className="edit-btn" onClick={() => onEditAd(ads.find(a => a.id === row.id))}>Edit</button>
+</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      })}
     </div>
   );
 }

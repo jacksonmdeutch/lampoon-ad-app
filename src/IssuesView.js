@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
-function IssuesView({ ads, issues, onTogglePlaced, onAddIssue }) {
-  const [selectedIssue, setSelectedIssue] = useState(issues[0]);
+function IssuesView({ ads, issues, printedIssues, selectedIssue: initialIssue, onTogglePlaced, onAddIssue, onToggleIssuePrinted, onEditAd }) {
+  const [selectedIssue, setSelectedIssue] = useState(initialIssue || issues[0]);
   const [newIssueName, setNewIssueName] = useState('');
   const [showAddIssue, setShowAddIssue] = useState(false);
+  
 
   const adsForIssue = ads.filter(ad => ad.issues.includes(selectedIssue));
+  const isPrinted = printedIssues.includes(selectedIssue);
 
   const handleAddIssue = () => {
     if (newIssueName.trim()) {
@@ -22,10 +24,10 @@ function IssuesView({ ads, issues, onTogglePlaced, onAddIssue }) {
         {issues.map(issue => (
           <button
             key={issue}
-            className={selectedIssue === issue ? 'active' : ''}
+            className={`${selectedIssue === issue ? 'active' : ''} ${printedIssues.includes(issue) ? 'printed' : ''}`}
             onClick={() => setSelectedIssue(issue)}
           >
-            {issue}
+            {printedIssues.includes(issue) ? '✓ ' : ''}{issue}
           </button>
         ))}
         <button className="add-issue-btn" onClick={() => setShowAddIssue(!showAddIssue)}>
@@ -47,8 +49,19 @@ function IssuesView({ ads, issues, onTogglePlaced, onAddIssue }) {
       )}
 
       <div className="issue-summary">
-        <h2>{selectedIssue}</h2>
-        <span>{adsForIssue.length} ads · {adsForIssue.filter(ad => ad.placed[selectedIssue]).length} placed</span>
+        <div className="issue-summary-left">
+          <h2 style={{ textDecoration: isPrinted ? 'line-through' : 'none', opacity: isPrinted ? 0.5 : 1 }}>
+            {selectedIssue}
+          </h2>
+          <span>{adsForIssue.length} ads · {adsForIssue.filter(ad => ad.placed[selectedIssue]).length} placed</span>
+          {isPrinted && <span className="printed-badge">✓ Printed</span>}
+        </div>
+        <button
+          className={isPrinted ? 'unprint-btn' : 'mark-printed-btn'}
+          onClick={() => onToggleIssuePrinted(selectedIssue)}
+        >
+          {isPrinted ? 'Mark as Unprinted' : '🖨 Mark as Printed'}
+        </button>
       </div>
 
       <table className="ads-table">
@@ -60,6 +73,7 @@ function IssuesView({ ads, issues, onTogglePlaced, onAddIssue }) {
             <th>Sold By</th>
             <th>Ad Copy</th>
             <th>Notes</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -72,21 +86,24 @@ function IssuesView({ ads, issues, onTogglePlaced, onAddIssue }) {
                   onChange={() => onTogglePlaced(ad.id, selectedIssue)}
                 />
               </td>
-              <td>{ad.company}</td>
+              <td><strong>{ad.company}</strong></td>
               <td>{ad.size}</td>
               <td>{ad.soldBy}</td>
               <td>
-                            {ad.adCopy ? (
-                  <a href={ad.adCopy} target="_blank" rel="noreferrer">View</a>
+                {ad.adCopy ? (
+                  <a href={ad.adCopy} target="_blank" rel="noreferrer">View ↗</a>
                 ) : (
-                  <span className="no-copy-warning" title="Ad copy not yet received">⚠️ Not received</span>
+                  <span className="no-copy-warning">⚠️ Not received</span>
                 )}
               </td>
               <td>{ad.notes || '—'}</td>
+              <td>
+  <button className="edit-btn" onClick={() => onEditAd(ad)}>Edit</button>
+</td>
             </tr>
           ))}
           {adsForIssue.length === 0 && (
-            <tr><td colSpan="6">No ads for this issue yet.</td></tr>
+            <tr><td colSpan="6" style={{textAlign:'center', color:'#aaa', padding:'24px'}}>No ads for this issue yet.</td></tr>
           )}
         </tbody>
       </table>
