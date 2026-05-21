@@ -75,7 +75,6 @@ function App() {
   };
 
   const handleDeleteAd = async (adId) => {
-    const { deleteDoc } = await import('firebase/firestore');
     await deleteDoc(doc(db, 'ads', adId));
   };
 
