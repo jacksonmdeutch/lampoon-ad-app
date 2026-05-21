@@ -1,0 +1,36 @@
+export const ISSUES = [
+    "Matt",
+    "Sterling", 
+    "Destination",
+    "150th",
+    "Commencement",
+    "Hamza"
+  ];
+  
+  export const ADS = [
+    { id: 1, soldBy: "Jackson", company: "Illusione Cigars", size: "1/2 pg color", numIssues: 3, issues: ["Sterling", "Destination", "Commencement"], adCopy: "https://drive.google.com/file/d/1kyW47vzy0syKON7jOK0MgpO3hFvTnP5r/view", notes: "", placed: {} },
+    { id: 2, soldBy: "Jackson", company: "Westward Whiskey", size: "1 full page", numIssues: 1, issues: ["Destination"], adCopy: "https://drive.google.com/file/d/1znYIhPDeW9U3GYHE9zHi9So7CRp4f4w6/view", notes: "", placed: {} },
+    { id: 3, soldBy: "Jackson", company: "Urban Axes", size: "1x 1/2 pg color", numIssues: 3, issues: ["Matt", "Destination", "Sterling"], adCopy: "https://drive.google.com/file/d/1juQqP3BcPeRe7nxMfHNm4SY_6llyC1Lj/view", notes: "", placed: {} },
+    { id: 4, soldBy: "Jackson", company: "Liberty Fleet", size: "1/2 pg BW", numIssues: 2, issues: ["Destination", "150th"], adCopy: "https://drive.google.com/file/d/1dfz2K11MEgM_IW6FFvK4YbR4JDuNz7RA/view", notes: "", placed: {} },
+    { id: 5, soldBy: "Jackson", company: "Boston Public Market", size: "1/2 pg color", numIssues: 3, issues: ["Matt", "150th", "Sterling"], adCopy: "https://drive.google.com/file/d/1jhwAjMohbs3Y9R8xB4ZnT5n3kJcxW54p/view", notes: "", placed: {} },
+    { id: 6, soldBy: "Jackson", company: "Tracksmith", size: "Full pg spread", numIssues: 3, issues: ["Destination", "150th", "Commencement"], adCopy: "https://drive.google.com/file/d/1wJqCdknEs_3bQL3MwZgkUx8qch2qjMnM/view", notes: "", placed: {} },
+    { id: 7, soldBy: "Jackson", company: "Cafe Saint Germain", size: "1/2 pg color", numIssues: 2, issues: ["Sterling", "Destination"], adCopy: "https://drive.google.com/file/d/1jqS6R3aWzFFi7F5XfWHfV_qZVREBpNQG/view", notes: "", placed: {} },
+    { id: 8, soldBy: "Jackson", company: "Crescent Canna", size: "Full pg color", numIssues: 3, issues: ["150th", "Commencement", "Destination"], adCopy: "https://drive.google.com/file/d/13cjf7klRoHxZ3aRfEBHTw0yt2H5oqRVn/view", notes: "pushed to 150th, mid april", placed: {} },
+    { id: 9, soldBy: "Jackson", company: "Keef Brands", size: "Full pg color", numIssues: 5, issues: ["Sterling", "Matt", "Destination", "Commencement", "150th"], adCopy: "https://drive.google.com/file/d/1bRKgyK63nTRtcuEdTODPN4zgvv77cTof/view", notes: "", placed: {} },
+    { id: 10, soldBy: "Jackson", company: "Invest America", size: "Full pg color", numIssues: 3, issues: ["150th", "Destination", "Commencement"], adCopy: "https://drive.google.com/file/d/1HOIXjKFGvky-tkSG-bGWtKoD-MbLj4M-/view", notes: "150th special", placed: {} },
+    { id: 11, soldBy: "Jackson", company: "Roar Wines", size: "1/4 pg color", numIssues: 3, issues: ["Matt", "Destination", "Commencement"], adCopy: "https://drive.google.com/file/d/1NTrfb3SOKFGPqy8d_ctmMh7YmQlKZ7SI/view", notes: "", placed: {} },
+    { id: 12, soldBy: "Jackson", company: "Cougary Vineyard", size: "Full pg color", numIssues: 2, issues: ["Sterling", "Destination"], adCopy: "https://drive.google.com/file/d/1oD5gcfaEw59GinysMwygSPQwP9JHPmHA/view", notes: "", placed: {} },
+    { id: 13, soldBy: "Jackson", company: "Stewart Cellars", size: "Full pg", numIssues: 2, issues: ["Matt", "150th"], adCopy: "https://drive.google.com/file/d/1UAZQBJ_RxQQAXSZMcynSWZSbiPyD2di0/view", notes: "push to 150th?", placed: {} },
+    { id: 14, soldBy: "Jackson", company: "Marshallberg Farms", size: "1/2 pg color", numIssues: 3, issues: ["Matt", "Sterling", "Destination"], adCopy: "https://drive.google.com/file/d/12Skscrx0G5rfgXUdT8weh0a-V_bxNhyA/view", notes: "", placed: {} },
+    { id: 15, soldBy: "Wells", company: "Andov Audio", size: "Full pg color", numIssues: 2, issues: ["Matt", "Sterling"], adCopy: "https://drive.google.com/file/d/1ZRbjjhVM73tOUk9sa9Vk_LT2YbR4JDuNz7RA/view", notes: "", placed: {} },
+    { id: 16, soldBy: "Jay", company: "Jane Feldgus", size: "1/4 pg color", numIssues: 1, issues: ["Matt"], adCopy: "https://drive.google.com/file/d/1qJHKhZulngScxRy34lv1bBvsiMhAkR2b/view", notes: "", placed: {} },
+    { id: 17, soldBy: "Faisal", company: "Rampd", size: "Back Cover", numIssues: 1, issues: ["Matt"], adCopy: "https://drive.google.com/file/d/1pZf0FreSnDhFajh12ALrqzjcgRSXZ08X/view", notes: "", placed: {} },
+    { id: 18, soldBy: "Faisal", company: "Tension Studio", size: "Full Page Color", numIssues: 1, issues: ["Matt"], adCopy: "https://drive.google.com/file/d/1Ws4-hySNJlr4qR6uF58-KnaBm4Ze1chH/view", notes: "", placed: {} },
+    { id: 19, soldBy: "Faisal", company: "Rings", size: "Inside Back Cover", numIssues: 2, issues: ["150th", "Commencement"], adCopy: "https://drive.google.com/drive/u/3/folders/1vEsC6m6-Ed6dozFDxusyMGpuZhv0d55V", notes: "Was sold as back cover for 150th", placed: {} },
+    { id: 20, soldBy: "Ory", company: "ddup", size: "Inside Back Cover", numIssues: 1, issues: ["Matt"], adCopy: "https://drive.google.com/file/d/1xJDzpgxwHU3NtY5InMeMl8z11S9uSFXE/view", notes: "", placed: {} },
+    { id: 21, soldBy: "Comper", company: "Black Swan", size: "Full page color", numIssues: 2, issues: ["Hamza", "Commencement"], adCopy: "https://drive.google.com/file/d/12IzwJT_XrusFoIBVBHU9uTcWlnf3QlDw/view", notes: "", placed: {} },
+    { id: 22, soldBy: "Comper", company: "Next Step Reality", size: "Inside Front Cover", numIssues: 1, issues: ["Commencement"], adCopy: "https://drive.google.com/file/d/1XZdzW5nEZsS0uQOCzo-mjHCfjte-Gop1/view", notes: "", placed: {} },
+    { id: 23, soldBy: "Comper", company: "Greenfield Records", size: "Full page special", numIssues: 1, issues: ["Commencement"], adCopy: "https://drive.google.com/file/d/1DBfXANP0CmqFJJLJk6YnRCVMGNooVoUh/view", notes: "", placed: {} },
+    { id: 24, soldBy: "Comper", company: "Wandrlyst", size: "Half Page Color", numIssues: 1, issues: ["Commencement"], adCopy: "https://drive.google.com/file/d/1D2Spe3ituDL4NC0Bjp8AZ1l7gSLavY4p/view", notes: "", placed: {} },
+    { id: 25, soldBy: "Morgan Stanley", company: "Morgan Stanley", size: "Unknown", numIssues: 1, issues: ["Commencement"], adCopy: "", notes: "VERY ETHICAL COMPER", placed: {} },
+  ];
