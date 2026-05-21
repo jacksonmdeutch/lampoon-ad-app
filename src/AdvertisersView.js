@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function AdvertisersView({ ads, issues, onSelectIssue, onEditAd }) {
+function AdvertisersView({ ads, issues, onSelectIssue, onEditAd, onDeleteAd }) {
   const [search, setSearch] = useState('');
 
   const expanded = ads.flatMap(ad =>
@@ -98,6 +98,9 @@ function AdvertisersView({ ads, issues, onSelectIssue, onEditAd }) {
                     <td>{row.notes || '—'}</td>
                     <td>
   <button className="edit-btn" onClick={() => onEditAd(ads.find(a => a.id === row.id))}>Edit</button>
+  <button className="delete-btn" onClick={() => {
+    if (window.confirm(`Delete ${row.company}?`)) onDeleteAd(row.id);
+  }}>Delete</button>
 </td>
                   </tr>
                 ))}

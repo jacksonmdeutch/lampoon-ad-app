@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function IssuesView({ ads, issues, printedIssues, selectedIssue: initialIssue, onTogglePlaced, onAddIssue, onToggleIssuePrinted, onEditAd }) {
+function IssuesView({ ads, issues, printedIssues, selectedIssue: initialIssue, onTogglePlaced, onAddIssue, onToggleIssuePrinted, onEditAd, onDeleteAd }) {
   const [selectedIssue, setSelectedIssue] = useState(initialIssue || issues[0]);
   const [newIssueName, setNewIssueName] = useState('');
   const [showAddIssue, setShowAddIssue] = useState(false);
@@ -99,6 +99,9 @@ function IssuesView({ ads, issues, printedIssues, selectedIssue: initialIssue, o
               <td>{ad.notes || '—'}</td>
               <td>
   <button className="edit-btn" onClick={() => onEditAd(ad)}>Edit</button>
+  <button className="delete-btn" onClick={() => {
+    if (window.confirm(`Delete ${ad.company}?`)) onDeleteAd(ad.id);
+  }}>Delete</button>
 </td>
             </tr>
           ))}

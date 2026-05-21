@@ -698,3 +698,23 @@ main {
   padding: 3px 10px;
   border-radius: 12px;
 }
+
+.delete-btn {
+  background: transparent;
+  border: 1.5px solid #fca5a5;
+  color: #dc2626;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-left: 6px;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  color: white;
+  border-color: #dc2626;
+}

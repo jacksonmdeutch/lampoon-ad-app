@@ -4,6 +4,7 @@ import IssuesView from './IssuesView';
 import AdvertisersView from './AdvertisersView';
 import AddAdForm from './AddAdForm';
 import EditAdForm from './EditAdForm';
+import ImportCSV from './ImportCSV';
 import { db } from './firebase';
 import {
   collection,
@@ -12,6 +13,7 @@ import {
   updateDoc,
   doc,
   setDoc,
+  deleteDoc,
 } from 'firebase/firestore';
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
   const [showAddAd, setShowAddAd] = useState(false);
   const [editingAd, setEditingAd] = useState(null);
   const [selectedIssue, setSelectedIssue] = useState(null);
+  const [showImport, setShowImport] = useState(false);
   const [loading, setLoading] = useState(true);
 
   // Load ads from Firebase in real time
@@ -56,6 +59,11 @@ function App() {
     const ad = ads.find(a => a.id === adId);
     const newPlaced = { ...ad.placed, [issue]: !ad.placed[issue] };
     await updateDoc(doc(db, 'ads', adId), { placed: newPlaced });
+  };
+
+  const handleDeleteAd = async (adId) => {
+    const { deleteDoc } = await import('firebase/firestore');
+    await deleteDoc(doc(db, 'ads', adId));
   };
 
   const handleAddIssue = async (name) => {
@@ -139,12 +147,19 @@ function App() {
     URL.revokeObjectURL(url);
   };
 
+  const handleImportAds = async (newAds) => {
+    for (const ad of newAds) {
+      await addDoc(collection(db, 'ads'), ad);
+    }
+  };
+
   if (loading) {
     return (
       <div className="app">
         <div className="loading">Loading Lampoon Ad Tracker...</div>
       </div>
     );
+
   }
 
   return (
@@ -153,6 +168,7 @@ function App() {
         <h1>Lampoon <span>Ad Tracker</span></h1>
         <div className="header-right">
           <button className="export-btn" onClick={handleExportCSV}>↓ Export CSV</button>
+          <button className="export-btn" onClick={() => setShowImport(true)}>↑ Import CSV</button>
           <button className="add-ad-btn" onClick={() => setShowAddAd(true)}>+ Add Ad</button>
           <nav>
             <button className={view === 'issues' ? 'active' : ''} onClick={() => setView('issues')}>By Issue</button>
@@ -172,6 +188,7 @@ function App() {
             onAddIssue={handleAddIssue}
             onToggleIssuePrinted={handleToggleIssuePrinted}
             onEditAd={setEditingAd}
+            onDeleteAd={handleDeleteAd}
           />
         )}
         {view === 'advertisers' && (
@@ -180,6 +197,7 @@ function App() {
             issues={issues}
             onSelectIssue={handleSelectIssue}
             onEditAd={setEditingAd}
+            onDeleteAd={handleDeleteAd}
           />
         )}
       </main>
@@ -200,6 +218,14 @@ function App() {
           onClose={() => setEditingAd(null)}
         />
       )}
+
+{showImport && (
+  <ImportCSV
+    issues={issues}
+    onImport={handleImportAds}
+    onClose={() => setShowImport(false)}
+  />
+)}
     </div>
   );
 }
