@@ -33,32 +33,33 @@ function App() {
   const [authLoading, setAuthLoading] = useState(true);
 
   // Load ads from Firebase in real time
-  useEffect(() => {
-    const unsub = onSnapshot(collection(db, 'ads'), snapshot => {
-      const loaded = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setAds(loaded);
-      setLoading(false);
-    });
-    return unsub;
-  }, []);
+useEffect(() => {
+  if (!user) return;
+  const unsub = onSnapshot(collection(db, 'ads'), snapshot => {
+    const loaded = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    setAds(loaded);
+    setLoading(false);
+  });
+  return unsub;
+}, [user]);
 
-  // Load issues + printed status from Firebase
-  useEffect(() => {
-    const unsub = onSnapshot(doc(db, 'meta', 'issues'), snapshot => {
-      if (snapshot.exists()) {
-        const data = snapshot.data();
-        setIssues(data.list || []);
-        setPrintedIssues(data.printed || []);
-      } else {
-        // First time setup — seed with default issues
-        setDoc(doc(db, 'meta', 'issues'), {
-          list: ['Matt', 'Sterling', 'Destination', '150th', 'Commencement', 'Hamza'],
-          printed: []
-        });
-      }
-    });
-    return unsub;
-  }, []);
+// Load issues + printed status from Firebase
+useEffect(() => {
+  if (!user) return;
+  const unsub = onSnapshot(doc(db, 'meta', 'issues'), snapshot => {
+    if (snapshot.exists()) {
+      const data = snapshot.data();
+      setIssues(data.list || []);
+      setPrintedIssues(data.printed || []);
+    } else {
+      setDoc(doc(db, 'meta', 'issues'), {
+        list: ['Matt', 'Sterling', 'Destination', '150th', 'Commencement', 'Hamza'],
+        printed: []
+      });
+    }
+  });
+  return unsub;
+}, [user]);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
@@ -165,10 +166,22 @@ function App() {
     }
   };
 
-  if (authLoading || loading) {
+  if (authLoading) {
     return (
       <div className="app">
         <div className="loading">Loading Lampoon Ad Tracker...</div>
+      </div>
+    );
+  }
+  
+  if (!user) {
+    return <Login />;
+  }
+  
+  if (loading) {
+    return (
+      <div className="app">
+        <div className="loading">Loading your data...</div>
       </div>
     );
   }
