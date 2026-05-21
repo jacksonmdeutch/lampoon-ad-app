@@ -6,6 +6,9 @@ import AddAdForm from './AddAdForm';
 import EditAdForm from './EditAdForm';
 import ImportCSV from './ImportCSV';
 import { db } from './firebase';
+import Login from './Login';
+import { auth } from './firebase';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import {
   collection,
   onSnapshot,
@@ -26,6 +29,8 @@ function App() {
   const [selectedIssue, setSelectedIssue] = useState(null);
   const [showImport, setShowImport] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
   // Load ads from Firebase in real time
   useEffect(() => {
@@ -51,6 +56,14 @@ function App() {
           printed: []
         });
       }
+    });
+    return unsub;
+  }, []);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (u) => {
+      setUser(u);
+      setAuthLoading(false);
     });
     return unsub;
   }, []);
@@ -153,19 +166,25 @@ function App() {
     }
   };
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <div className="app">
         <div className="loading">Loading Lampoon Ad Tracker...</div>
       </div>
     );
-
+  }
+  
+  if (!user) {
+    return <Login />;
   }
 
   return (
     <div className="app">
       <header className="header">
         <h1>Lampoon <span>Ad Tracker</span></h1>
+        <span className="user-info">
+  {user.email} · <button className="signout-btn" onClick={() => signOut(auth)}>Sign out</button>
+</span>
         <div className="header-right">
           <button className="export-btn" onClick={handleExportCSV}>↓ Export CSV</button>
           <button className="export-btn" onClick={() => setShowImport(true)}>↑ Import CSV</button>
