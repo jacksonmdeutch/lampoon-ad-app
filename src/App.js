@@ -12,7 +12,6 @@ import {
   updateDoc,
   doc,
   setDoc,
-  getDoc,
 } from 'firebase/firestore';
 
 function App() {
